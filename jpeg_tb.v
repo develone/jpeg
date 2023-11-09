@@ -43,6 +43,16 @@ reg e2_o_s [3:0];
 reg e3_o_s [3:0]; 
 
 always #5 r_clk = (r_clk === 1'b0);
+
+wire SOF;
+wire [4:0] state;
+reg WR_DATAFlag;
+//reg clk;
+reg reset_n;
+wire [22:0] addrsam_r;
+wire [22:0] addrjpeg_r;
+wire rd_r;
+wire wr_r;
  
 jpeg jpeg0(
     .clk(r_clk),
@@ -113,6 +123,19 @@ jpeg jpeg3(
   .o_Rd_Data(w_Rd_Data)
   );
 
+
+RamCtrl fsm(
+    .SOF(SOF),
+    .state(state),
+    .WR_DATAFlag(WR_DATAFlag),
+    .clk(r_clk),
+    .reset_n(reset_n),
+    .addrsam_r(addrsam_r),
+    .addrjpeg_r(addrjpeg_r),
+    .rd_r(rd_r),
+    .wr_r(wr_r)
+);
+
  initial
 		begin
 			#31000;
@@ -121,7 +144,7 @@ jpeg jpeg3(
 
  initial
 	begin
-	
+	# 500 reset_n = 0;
 	# 500 l0_s [0] = 215;
 	# 1 r0_s [0] = 217;
 	# 1 s0_s [0] = 216;
@@ -163,7 +186,7 @@ jpeg jpeg3(
 	# 503 r1_s [1] = 215;
 	# 503 f1_i_s [1] = 0;
         # 504 s1_s [1] = res1_s [1];
-	
+	# 700 reset_n = 1;
 	# 700 r_Rd_Addr = 3;
    	# 700 l0_s [0] = w_Rd_Data;
 	# 710 r_Rd_Addr = 2;

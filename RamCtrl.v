@@ -9,7 +9,7 @@ module RamCtrl (
     SOF,
     state,
     WR_DATAFlag,
-    clk_fast,
+    clk,
     reset_n,
     addrsam_r,
     addrjpeg_r,
@@ -21,7 +21,7 @@ module RamCtrl (
 // SOF -- start-of-frame output bit
 // state -- RamState output
 // WR_DATAFlag -- WR_DATA pattern found indication input
-// clk_fast -- clock input
+// clk -- clock input
 // reset_n -- active low reset
 
 output SOF;
@@ -29,7 +29,7 @@ reg SOF;
 output [4:0] state;
 reg [4:0] state;
 input WR_DATAFlag;
-input clk_fast;
+input clk;
 input reset_n;
 output [22:0] addrsam_r;
 reg [22:0] addrsam_r;
@@ -46,7 +46,7 @@ reg [7:0] index;
 
 
 
-always @(posedge clk_fast, negedge reset_n) begin: RAMCTRL_FSM
+always @(posedge clk, negedge reset_n) begin: RAMCTRL_FSM
     if ((reset_n == 0)) begin
         SOF <= 0;
         index <= 0;
@@ -108,9 +108,9 @@ always @(posedge clk_fast, negedge reset_n) begin: RAMCTRL_FSM
             5'b1????: begin
                 SOF <= 0;
             end
-            default: begin
-                $finish;
-            end
+            //default: begin
+                //$finish;
+            //end
         endcase
     end
 end
