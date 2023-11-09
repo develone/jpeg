@@ -115,7 +115,7 @@ jpeg jpeg3(
 
  initial
 		begin
-			#19600;
+			#31000;
 			$finish();
  end
 
@@ -163,6 +163,17 @@ jpeg jpeg3(
 	# 503 r1_s [1] = 215;
 	# 503 f1_i_s [1] = 0;
         # 504 s1_s [1] = res1_s [1];
+	
+	# 700 r_Rd_Addr = 3;
+   	# 700 l0_s [0] = w_Rd_Data;
+	# 710 r_Rd_Addr = 2;
+        # 710 s0_s [0] = w_Rd_Data;
+	# 720 r_Rd_Addr = 4;
+        # 720 r0_s [0] = w_Rd_Data;
+
+	# 720 e0_o_s [0]= 0;
+  	# 720 f0_i_s [0] = 1;
+	# 730 e0_o_s [0]= 1;
 	end
 
  
